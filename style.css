@@ -372,7 +372,7 @@ svg {
     width: 22em;
     height: 22em;
     background-color: black;
-    background-image: url(../ressources/vinyl.svg);
+    background-image: url(ressources/vinyl.svg);
     background-size: cover;
     display: flex;
     justify-content: center;
