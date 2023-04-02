@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>fdqo</title>
+        <title>Your Vinyl Player</title>
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +24,7 @@
                     <div class="songs" data-redirect-params="ressources/toxicity.jpg|audio/System Of A Down - Toxicity (Official HD Video).mp3|System Of A Down|Toxicity"></div>
                     <div class="songs" data-redirect-params="ressources/lux_aeterna.jpeg|audio/Lux Æterna.mp3|Metallica|Lux Æterna"></div>
                     <div class="songs" data-redirect-params="ressources/zelda.jpg|audio/Title Theme - The Legend of Zelda Ocarina of Time.mp3|The Legend Of Zelda|Title Theme"></div>
-                    <div class="songs" data-redirect-params="ressources/Nonante-Cinq.jpg||Angèle|"></div>
+                    <div class="songs" data-redirect-params="ressources/Nonante-Cinq.jpg|audio/Mauvais rêves.mp3|Angèle|Mauvais Rêves"></div>
                     <div class="songs" data-redirect-params="ressources/ratatouille_mon_amour.jpg|audio/Le Festin.mp3|Disney - Pixar|Le Festin"></div>
                     <div class="songs" data-redirect-params="ressources/500x500.jpg|audio/Lomepal - Tee.mp3|Lomepal|Tee"></div>
                     <div class="songs" data-redirect-params="ressources/master_of_puppets.png|audio/Master of Puppets.mp3|Metallica|Master Of Puppets"></div>
@@ -41,7 +41,6 @@
                         </div>
                     <div class="left-of-vinyl-box"></div>
                 </div>
-                <div class="preview"></div>
             </div>
             <div class="finalisation">
                 <h3>Listen to :</h3>
@@ -70,7 +69,9 @@
             </div>
             <div class="top">
                 <h2>Drop Off A Vinyl</h2>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M334.5 414c8.8 3.8 19 2 26-4.6l144-136c4.8-4.5 7.5-10.8 7.5-17.4s-2.7-12.9-7.5-17.4l-144-136c-7-6.6-17.2-8.4-26-4.6s-14.5 12.5-14.5 22l0 72L32 192c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l288 0 0 72c0 9.6 5.7 18.2 14.5 22z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M334.5 414c8.8 3.8 19 2 26-4.6l144-136c4.8-4.5 7.5-10.8 7.5-17.4s-2.7-12.9-7.5-17.4l-144-136c-7-6.6-17.2-8.4-26-4.6s-14.5 12.5-14.5 22l0 72L32 192c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l288 0 0 72c0 9.6 5.7 18.2 14.5 22z"/>
+                </svg>
             </div>
             <div class="bottom"></div>
             <div class="back-right"></div>
@@ -85,6 +86,8 @@
             </button>
         </div>
         <div class="options-menu">
+            <p>Volume : <span id="volume-value">100</span></p>
+            <input type="range" name="volume" value="1" min="0" max="1" step="0.01" id="volume">
         </div>
         <div class="audio-controls">
             <input type="range" name="timestamps" id="timestamps" class="bar" min="0" max="100" step="0.01" value="0"><span id="timing">00:00</span>
