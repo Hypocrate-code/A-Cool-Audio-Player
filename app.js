@@ -50,7 +50,6 @@ function actualizeVolume(isLogged) {
 volumeSlider.addEventListener('input',actualizeVolume, logSound)
 
 function checkViewport() {
-    // console.log(actualIndexOfSong);
     if(window.innerHeight>=window.innerWidth/100*90 && window.innerWidth<940) {
         if(!launchMenu.classList.contains('visible')) {
             launchMenu.classList.add('visible');
@@ -180,21 +179,17 @@ function Pause() {
 
 previousBtn.addEventListener('click',()=>{
     endCurrentActionAndWhatWeDoNext('previous')
-    // userPlaylist.forEach(title=>{
-    //     if (title[1]==actualAudio.src && userPlaylist.indexOf(title)!=0) {
-    //         initiateASong(title[0], title[1], title[2, title[3]])
-    //     }
-    // })
 });
+skipBtn.addEventListener('click',()=>{
+    endCurrentActionAndWhatWeDoNext('skip')
+})
 
-let nextSoundIndex;
+let actualSoundIndex;
 
 function endCurrentActionAndWhatWeDoNext(action) {
     optionMenu.classList.remove('visible');
     isUpdating=false;
     actualAudio.pause();
-    // if(window.getComputedStyle(vinyle).animationPlayState == 'paused') {
-        // pointe.style.transitionDuration = '.5s'
         pointe.style.transform = 'none'
             pointe.addEventListener('transitionend', ()=> {
                 if(action === 'previous'){
@@ -208,12 +203,15 @@ function endCurrentActionAndWhatWeDoNext(action) {
                     })       
                 }
                 else if(action === 'skip') {
-
+                    let maybeIndex = 0;
+                    songs.forEach(song=>{
+                        const data = getTheRightData(song);
+                        if(data[3]===songName.textContent.split(' - ')[0] && maybeIndex<songs.length-1){
+                            actualSoundIndex = maybeIndex;
+                        }
+                        maybeIndex+=1;
+                    })  
                 }
-                // else if(action === 'eject') {
-
-                // }
-                // else if(action === 'previous')
                 else {
                     audioPlayer.classList.add('hidden');
                     setTimeout(()=> {
@@ -231,22 +229,48 @@ function endCurrentActionAndWhatWeDoNext(action) {
 
                         document.body.style.background='radial-gradient(circle, #a34937 0%, #7a2b20 85%, #48150e 100%)';
                         actualAudio.currentTime=0;
-                        if(actualSoundIndex!=undefined) {
-                            const data = getTheRightData(songs[actualSoundIndex-1])
-                            isUpdating = false;
-                            initiateASong(data[0], data[1],data[2],data[3], songs[0])
-
+                        if(action==='previous' && actualSoundIndex!=undefined) {
+                            nextSongIsPreviousOrNext(actualSoundIndex, -1);
                         }
-                        else if(action==='skip') {
-
-                        }
-                        else {
-
+                        if(action==='skip') {
+                            nextSongIsPreviousOrNext(actualSoundIndex, 1);
                         }
                     }, {once: true})
                 
             }, {once: true});
 }
+
+function nextSongIsPreviousOrNext(actualSoundIndex, definer) {
+    const dataOfPreviousSong = getTheRightData(songs[actualSoundIndex + definer]);
+    songName.textContent = `${dataOfPreviousSong[3]} - ${dataOfPreviousSong[2]}`
+    actualAudio.ended = false;
+    audioTrack.value = 0;
+    isUpdating=false;
+    audioTrack.style.setProperty('pointer-events', 'auto');
+    pauseBtn.classList.remove('paused');
+    vinyleImg.src = dataOfPreviousSong[0];
+    cover.src = dataOfPreviousSong[0];
+    vinyle.classList.add('active');
+    vinyle.addEventListener('animationend',()=> {
+        actualAudio.src = dataOfPreviousSong[1];
+        vinyle.classList.add('ended');
+        setTimeout(()=>vinyle.style.animationTimingFunction='linear',1490);
+        pointe.style.transform = 'rotateX(90deg) rotateZ(-50deg)';
+        pointe.addEventListener('transitionend', ()=> {
+            vinyleScratch.play();
+            setTimeout(()=> {
+                isUpdating=true;
+                actualAudio.play();
+                vinyle.style.setProperty('transform', 'rotateX(70deg) translateY(1.5em) translateX(2em)');
+                pointe.style.transition = 'transform .3s';
+                audioPlayer.classList.remove('hidden');
+            }, 1000)
+        }, {once:true})
+    },{once: true})
+
+}
+
+
 function createBodyShadeVisualisation() {
     let audioCtx = new AudioContext();
     let nodeAudio = audioCtx.createMediaElementSource(actualAudio);
